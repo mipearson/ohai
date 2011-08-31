@@ -20,6 +20,7 @@ provides "cpu"
 
 cpuinfo = Mash.new
 real_cpu = Mash.new
+cpu_cores = Mash.new
 cpu_number = 0
 current_cpu = nil
 
@@ -42,6 +43,7 @@ File.open("/proc/cpuinfo").each do |line|
     real_cpu[$1] = true
   when /core id\s+:\s(.+)/
     cpuinfo[current_cpu]["core_id"] = $1
+    cpu_cores[$1] = true
   when /cpu cores\s+:\s(.+)/
     cpuinfo[current_cpu]["cores"] = $1
   when /model name\s+:\s(.+)/
@@ -58,3 +60,4 @@ end
 cpu cpuinfo
 cpu[:total] = cpu_number
 cpu[:real] = real_cpu.keys.length
+cpu[:cores] = cpu_cores.keys.length

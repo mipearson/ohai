@@ -58,6 +58,11 @@ describe Ohai::System, "Linux cpu plugin" do
     @ohai[:cpu][:real].should == 0
   end
   
+  it "should set cpu[:cores] to 0" do
+    @ohai._require_plugin("linux::cpu")
+    @ohai[:cpu][:cores].should == 0
+  end
+  
   it "should have a cpu 0" do
     @ohai._require_plugin("linux::cpu")
     @ohai[:cpu].should have_key("0")
